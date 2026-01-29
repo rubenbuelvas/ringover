@@ -1,0 +1,6 @@
+app:
+  route: ":8080"
+db:
+  user: root
+  dbname: tasking
+  dsn: root:@(localhost:4000)/tasking
