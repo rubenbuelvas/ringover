@@ -22,18 +22,12 @@ func NewMySQLClient(config string) (domain.TaskRepository, error) {
 
 func (client *MySQLClient) GetTasks() ([]domain.Task, error) {
 	result := []domain.Task{}
-	/*query := `
-			SELECT t.id, t.title, t.description, t.status, t.priority, t.due_date,
-	               t.completed_at, t.parent_task_id, t.category_id, t.created_at, t.updated_at,
-	               c.id, c.name
+	query := `
+			SELECT t.*, c.name AS category_name
 	        FROM tasks t
 	        JOIN categories c
 	        ON t.category_id = c.id
-		`*/
-	query := `
-		SELECT *
-        FROM tasks
-	`
+		`
 	err := client.db.Select(&result, query)
 	return result, err
 }
