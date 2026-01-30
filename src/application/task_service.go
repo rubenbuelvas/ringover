@@ -23,6 +23,14 @@ func (service *TaskService) GetTasks() ([]domain.Task, error) {
 	return tasks, err
 }
 
+func (service *TaskService) GetTaskById() ([]domain.Task, error) {
+	tasks, err := service.taskRepository.GetTasks()
+	if err != nil {
+		zap.L().Error("TaskService: Failed to get tasks", zap.Error(err))
+	}
+	return tasks, err
+}
+
 func (service *TaskService) GetSubtasks(taskId int64) ([]domain.Task, error) {
 	subtasks, err := service.taskRepository.GetSubtasks(taskId)
 	if err != nil {
@@ -31,8 +39,9 @@ func (service *TaskService) GetSubtasks(taskId int64) ([]domain.Task, error) {
 	return subtasks, err
 }
 
-func (service *TaskService) CreateTask(task CreateTaskDTO) error {
-	err := service.taskRepository.CreateTask(task)
+func (service *TaskService) CreateTask(taskDTO CreateTaskDTO) error {
+	task := taskDTO.ToTask()
+	err := service.taskRepository.CreateTask(*task)
 	if err != nil {
 		zap.L().Error("TaskService: Failed to create task", zap.Error(err))
 	}
@@ -40,7 +49,13 @@ func (service *TaskService) CreateTask(task CreateTaskDTO) error {
 }
 
 func (service *TaskService) PatchTask(taskId int64, data PatchTaskDTO) error {
-	err := service.taskRepository.PatchTask(taskId, data)
+	task, err := service.taskRepository.GetTaskById(taskId)
+	if err != nil {
+		zap.L().Error("TaskService: Failed to get task", zap.Error(err))
+		return err
+	}
+	data.ApplyToTask(&task)
+	err = service.taskRepository.PatchTask(taskId, task)
 	if err != nil {
 		zap.L().Error("TaskService: Failed to patch task", zap.Error(err))
 	}

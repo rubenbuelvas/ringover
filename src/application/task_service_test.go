@@ -14,7 +14,7 @@ func TestGetTasks_Success(t *testing.T) {
 	title := "Test Task"
 	tasks := []domain.Task{
 		{
-			ID:    &id,
+			Id:    &id,
 			Title: &title,
 		},
 	}

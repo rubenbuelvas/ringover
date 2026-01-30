@@ -199,6 +199,66 @@ func (_c *MockTaskRepository_GetSubtasks_Call) RunAndReturn(run func(taskId int6
 	return _c
 }
 
+// GetTaskById provides a mock function for the type MockTaskRepository
+func (_mock *MockTaskRepository) GetTaskById(taskId int64) (Task, error) {
+	ret := _mock.Called(taskId)
+
+	if len(ret) == 0 {
+		panic("no return value specified for GetTaskById")
+	}
+
+	var r0 Task
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(int64) (Task, error)); ok {
+		return returnFunc(taskId)
+	}
+	if returnFunc, ok := ret.Get(0).(func(int64) Task); ok {
+		r0 = returnFunc(taskId)
+	} else {
+		r0 = ret.Get(0).(Task)
+	}
+	if returnFunc, ok := ret.Get(1).(func(int64) error); ok {
+		r1 = returnFunc(taskId)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockTaskRepository_GetTaskById_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'GetTaskById'
+type MockTaskRepository_GetTaskById_Call struct {
+	*mock.Call
+}
+
+// GetTaskById is a helper method to define mock.On call
+//   - taskId int64
+func (_e *MockTaskRepository_Expecter) GetTaskById(taskId interface{}) *MockTaskRepository_GetTaskById_Call {
+	return &MockTaskRepository_GetTaskById_Call{Call: _e.mock.On("GetTaskById", taskId)}
+}
+
+func (_c *MockTaskRepository_GetTaskById_Call) Run(run func(taskId int64)) *MockTaskRepository_GetTaskById_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 int64
+		if args[0] != nil {
+			arg0 = args[0].(int64)
+		}
+		run(
+			arg0,
+		)
+	})
+	return _c
+}
+
+func (_c *MockTaskRepository_GetTaskById_Call) Return(task Task, err error) *MockTaskRepository_GetTaskById_Call {
+	_c.Call.Return(task, err)
+	return _c
+}
+
+func (_c *MockTaskRepository_GetTaskById_Call) RunAndReturn(run func(taskId int64) (Task, error)) *MockTaskRepository_GetTaskById_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // GetTasks provides a mock function for the type MockTaskRepository
 func (_mock *MockTaskRepository) GetTasks() ([]Task, error) {
 	ret := _mock.Called()

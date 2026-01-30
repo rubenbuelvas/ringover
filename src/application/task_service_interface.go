@@ -6,6 +6,6 @@ type ITaskService interface {
 	GetTasks() ([]domain.Task, error)
 	GetSubtasks(taskId int64) ([]domain.Task, error)
 	CreateTask(data CreateTaskDTO) error
-	PatchTask(taskId int64, data UpdateTaskDTO) error
+	PatchTask(taskId int64, data PatchTaskDTO) error
 	DeleteTask(taskId int64) error
 }
